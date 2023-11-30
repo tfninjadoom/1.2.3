@@ -1,11 +1,10 @@
 import turtle as TurtleModule
 from random import choice
 import keys
+from text import fontSetting
 
 # Storing image files in variables
-AppleImage = r"Apple.gif"
-PearImage = r"Pear.gif"
-FruitImages = [AppleImage, PearImage]
+FruitImages = { "Apple" : r"Apple.gif", "Pear" : r"Pear.gif" }
 
 
 class FruitTurtle (TurtleModule.Turtle):
@@ -14,7 +13,6 @@ class FruitTurtle (TurtleModule.Turtle):
   """
   
   letter : str
-  textObject : TurtleModule.Turtle
   disabled = False
 
   def __init__(self, letter:str=None, x:int=0, y:int=0, *args, **kwargs):
@@ -34,27 +32,44 @@ class FruitTurtle (TurtleModule.Turtle):
     self.showturtle()
     self.setheading(-90)
 
-    self.initializeTextObject()
-
-  def move(self, x:int =0, y:int =0):
-    self.goto(x, y)
-    self.textObject.clear()
-    self.textObject.goto(x, y)
-    self.textObject.write( 'a' )
-
 
   def initializeTextObject(self):
-    self.textObject = TurtleModule.Turtle()
+    
+    # Save previous coordinates
+    x = int(self.xcor())
+    y = int(self.ycor())
+
+    # Write text
+    self.write(self.letter, font=fontSetting, align="center")
+    
+    # Move to previous coordinates
+    self.goto(x-5, y+30)
+  
+
+  def move(self, x:int=0, y:int=0):
+    
+    # Move Apple
+    self.goto(x, y)
+
+    # Clear text
+    self.clear()
     
     # Initialize at position (x,y)
-    self.textObject.penup()
-    self.textObject.speed(0)
-    self.textObject.hideturtle()
-    self.textObject.goto(self.xcor, self.ycor)
+    self.penup()
+    self.speed(0)
+    self.hideturtle()
+    self.goto(x, y)
 
-    # Write tpyext
-    self.textObject.write('a')
+    # Write text
+    self.write(self.letter, font=fontSetting, align="center")
 
+    # Move Apple back to position after text and reset image
+    self.goto(x-5, y+30)
+    self.image()
+
+  
+  def image(self):
+    pass
 
 
 class AppleTurtle (FruitTurtle):
@@ -63,7 +78,12 @@ class AppleTurtle (FruitTurtle):
     
     super(AppleTurtle,self).__init__(*args, **kwargs)
     
-    self.shape(AppleImage)
+    self.image()
+
+    super(AppleTurtle,self).initializeTextObject()
+  
+  def image(self):
+    self.shape(FruitImages["Apple"])
 
 
 class PearTurtle (FruitTurtle):
@@ -72,4 +92,6 @@ class PearTurtle (FruitTurtle):
     
     super(PearTurtle,self).__init__(*args, **kwargs)
     
-    self.shape(PearImage)
+    self.shape(FruitImages["Pear"])
+
+    super(PearTurtle,self).initializeTextObject()

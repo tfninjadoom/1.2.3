@@ -10,19 +10,19 @@ BackgroundImage = r"Background.gif"
 Window.addshape(BackgroundImage)
 Window.bgpic(BackgroundImage)
 
-for Image in FruitImages: Window.addshape(Image)
+for Image in FruitImages.values(): Window.addshape(Image)
 
 # Functions
 def DrawApple(CurrentApple):
   Window.update()
 
 # Create an apple object from the AppleTurtle class
-AppleObject = AppleTurtle( x=randint(1,200), y=randint(1,200) )
+AppleObject = AppleTurtle( x=randint(-150,150), y=randint(-40,120) )
 
 # Function Calls
 DrawApple(AppleObject)
 
 
 # Callback Function to Key Presses
-Window.onkey( key="space", fun=lambda: AppleObject.forward( AppleObject.distance ) )
+Window.onkey( key="a", fun=AppleObject.move() ,)
 Window.mainloop()
