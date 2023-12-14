@@ -15,7 +15,7 @@ class FruitTurtle (TurtleModule.Turtle):
   letter : str
   disabled = False
 
-  def __init__(self, letter:str=None, x:int=0, y:int=0, *args, **kwargs):
+  def __init__(self, letter:str=None, x:int=0, y:int=0, i:int=0, *args, **kwargs):
     
     # Sets letter attribute if manually chosen
     self.letter = letter if (not letter==None) else choice(Keys.available)
@@ -37,26 +37,25 @@ class FruitTurtle (TurtleModule.Turtle):
     self.image()
 
     # Initialize text object
-    self.initializeTextObject()
+    self.initializeTextObject(i)
 
 
-  def initializeTextObject(self):
+  def initializeTextObject(self, i:int=0):
     
     # Save coordinates
     x = int(self.xcor())
     y = int(self.ycor())
 
-    # Move text turtle to location
-    self.moveText(x=x, y=y)
+    Text.move(x=x, y=y, i=i)
 
     # Write text as Text
-    Text.write(self.letter)
+    Text.write(self.letter, i=i)
   
 
-  def move(self, x:int=0, y:int=0, key:str=None):
+  def move(self, x:int=0, y:int=0, key:str=None, i:int=0):
 
     # Clear Text
-    Text.TextTurtle.clear()
+    Text.clear(i=i)
 
     # Move Apple and Text
     self.goto(x, y)
@@ -69,13 +68,13 @@ class FruitTurtle (TurtleModule.Turtle):
     self.goto(x, y)
 
     # Write text as Text
-    Text.write(self.letter)
+    Text.write(self.letter, i)
   
   def image(self):
     pass
 
-  def moveText(self, x:int, y:int):
-    Text.move(x, y)
+  def moveText(self, x:int, y:int, i:int=0):
+    Text.move(x=x, y=y, i=i)
 
 
 class AppleTurtle (FruitTurtle):
@@ -87,8 +86,8 @@ class AppleTurtle (FruitTurtle):
   def image(self):
     self.shape(FruitImages["Apple"])
   
-  def moveText(self, x:int, y:int):
-    Text.move(x+2, y-28)
+  def moveText(self, x:int, y:int, i:int=0):
+    Text.move(x=x+2, y=y-28, i=i)
 
 
 class PearTurtle (FruitTurtle):
@@ -100,5 +99,5 @@ class PearTurtle (FruitTurtle):
   def image(self):
     self.shape(FruitImages["Pear"])
   
-  def moveText(self, x:int, y:int):
-    Text.move(x+1, y-37)
+  def moveText(self, x:int, y:int, i:int=0):
+    Text.move(x=x+1, y=y-37, i=i)
