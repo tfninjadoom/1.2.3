@@ -20,6 +20,7 @@ class FruitTurtle (TurtleModule.Turtle):
     # Sets letter attribute if manually chosen
     self.letter = letter if (not letter==None) else choice(Keys.available)
     Keys.clickable.append(self.letter)
+    #Keys.available.remove(self.letter)
     
     # Turtle initialization routine
     super(FruitTurtle,self).__init__(*args, **kwargs)
@@ -32,6 +33,12 @@ class FruitTurtle (TurtleModule.Turtle):
     self.showturtle()
     self.setheading(-90)
 
+    # Initialize fruit image
+    self.image()
+
+    # Initialize text object
+    self.initializeTextObject()
+
 
   def initializeTextObject(self):
     
@@ -40,26 +47,20 @@ class FruitTurtle (TurtleModule.Turtle):
     y = int(self.ycor())
 
     # Move text turtle to location
-    Text.move(x=x, y=y)
+    self.moveText(x=x, y=y)
 
     # Write text as Text
     Text.write(self.letter)
-    
-    # Move to previous coordinates
-    # self.goto(x, y)
   
 
   def move(self, x:int=0, y:int=0, key:str=None):
-    
-    # Check for correct key pressed
-    #if key == 
-    
 
-    # Move Apple
+    # Clear Text
+    Text.TextTurtle.clear()
+
+    # Move Apple and Text
     self.goto(x, y)
-
-    # Clear text as Text
-    # self.clear()
+    self.moveText(x, y)
     
     # Initialize at position (x,y)
     self.penup()
@@ -69,14 +70,12 @@ class FruitTurtle (TurtleModule.Turtle):
 
     # Write text as Text
     Text.write(self.letter)
-
-    # Move Apple back to position after text as Text and reset image
-    # self.goto(x-5, y+30)
-    # self.image()
-
   
   def image(self):
     pass
+
+  def moveText(self, x:int, y:int):
+    Text.move(x, y)
 
 
 class AppleTurtle (FruitTurtle):
@@ -84,13 +83,12 @@ class AppleTurtle (FruitTurtle):
   def __init__(self, *args, **kwargs):
     
     super(AppleTurtle,self).__init__(*args, **kwargs)
-    
-    self.image()
-
-    super(AppleTurtle,self).initializeTextObject()
   
   def image(self):
     self.shape(FruitImages["Apple"])
+  
+  def moveText(self, x:int, y:int):
+    Text.move(x+2, y-28)
 
 
 class PearTurtle (FruitTurtle):
@@ -98,7 +96,9 @@ class PearTurtle (FruitTurtle):
   def __init__(self, *args, **kwargs):
     
     super(PearTurtle,self).__init__(*args, **kwargs)
-    
+  
+  def image(self):
     self.shape(FruitImages["Pear"])
-
-    super(PearTurtle,self).initializeTextObject()
+  
+  def moveText(self, x:int, y:int):
+    Text.move(x+1, y-37)
