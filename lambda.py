@@ -8,8 +8,8 @@ def odd_test(num):
     return False
 
 print("Test 1:",odd_test(4))
-print("Test 1:",odd_test(3))
+print("Test 2:",odd_test(3))
 
 lam_odd_test = lambda num: num % 2 == 1
 print("Test 3:",lam_odd_test(4))
-print("Test 3:",lam_odd_test(3))
+print("Test 4:",lam_odd_test(3))

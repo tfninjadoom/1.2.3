@@ -1,5 +1,4 @@
-import random
-import string
+import string as String
 
-available = [letter for letter in string.ascii_lowercase]
+available = [letter for letter in String.ascii_lowercase]
 clickable = []

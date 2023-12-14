@@ -1,10 +1,10 @@
 import turtle as TurtleModule
 from random import choice
-import keys
-from text import fontSetting
+import Keys
+import Text
 
 # Storing image files in variables
-FruitImages = { "Apple" : r"Apple.gif", "Pear" : r"Pear.gif" }
+FruitImages = { "Apple" : r"images\Apple.gif", "Pear" : r"images\Pear.gif" }
 
 
 class FruitTurtle (TurtleModule.Turtle):
@@ -18,8 +18,8 @@ class FruitTurtle (TurtleModule.Turtle):
   def __init__(self, letter:str=None, x:int=0, y:int=0, *args, **kwargs):
     
     # Sets letter attribute if manually chosen
-    self.letter = letter if (not letter==None) else choice(keys.available)
-    keys.clickable.append(self.letter)
+    self.letter = letter if (not letter==None) else choice(Keys.available)
+    Keys.clickable.append(self.letter)
     
     # Turtle initialization routine
     super(FruitTurtle,self).__init__(*args, **kwargs)
@@ -35,24 +35,31 @@ class FruitTurtle (TurtleModule.Turtle):
 
   def initializeTextObject(self):
     
-    # Save previous coordinates
+    # Save coordinates
     x = int(self.xcor())
     y = int(self.ycor())
 
-    # Write text
-    self.write(self.letter, font=fontSetting, align="center")
+    # Move text turtle to location
+    Text.move(x=x, y=y)
+
+    # Write text as Text
+    Text.write(self.letter)
     
     # Move to previous coordinates
-    self.goto(x-5, y+30)
+    # self.goto(x, y)
   
 
-  def move(self, x:int=0, y:int=0):
+  def move(self, x:int=0, y:int=0, key:str=None):
     
+    # Check for correct key pressed
+    #if key == 
+    
+
     # Move Apple
     self.goto(x, y)
 
-    # Clear text
-    self.clear()
+    # Clear text as Text
+    # self.clear()
     
     # Initialize at position (x,y)
     self.penup()
@@ -60,12 +67,12 @@ class FruitTurtle (TurtleModule.Turtle):
     self.hideturtle()
     self.goto(x, y)
 
-    # Write text
-    self.write(self.letter, font=fontSetting, align="center")
+    # Write text as Text
+    Text.write(self.letter)
 
-    # Move Apple back to position after text and reset image
-    self.goto(x-5, y+30)
-    self.image()
+    # Move Apple back to position after text as Text and reset image
+    # self.goto(x-5, y+30)
+    # self.image()
 
   
   def image(self):
