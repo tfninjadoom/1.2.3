@@ -15,7 +15,7 @@ class FruitTurtle (TurtleModule.Turtle):
   letter : str
   disabled = False
 
-  def __init__(self, letter:str=None, x:int=0, y:int=0, i:int=0, *args, **kwargs):
+  def __init__(self, letter:str=None, x:int=0, y:int=0, i:int=0, write=False, *args, **kwargs):
     
     # Sets letter attribute if manually chosen
     self.letter = letter if (not letter==None) else choice(Keys.available)
@@ -37,19 +37,25 @@ class FruitTurtle (TurtleModule.Turtle):
     self.image()
 
     # Initialize text object
-    self.initializeTextObject(i)
+    self.initializeTextObject(i, write)
 
 
-  def initializeTextObject(self, i:int=0):
-    
+  def initializeTextObject(self, i:int=0, write=False):
+
+    # Initialize Text Turtle
+    #Text.Setup(i)
+    Text.TextTurtles[i].hideturtle()
+    Text.TextTurtles[i].penup()
+    Text.TextTurtles[i].speed(0)
+
     # Save coordinates
     x = int(self.xcor())
     y = int(self.ycor())
 
-    Text.move(x=x, y=y, i=i)
+    self.moveText(x=x, y=y, i=i)
 
     # Write text as Text
-    Text.write(self.letter, i=i)
+    if write: Text.write(self.letter, i=i)
   
 
   def move(self, x:int=0, y:int=0, key:str=None, i:int=0):

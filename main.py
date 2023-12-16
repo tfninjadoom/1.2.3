@@ -4,6 +4,7 @@ from random import choice as RChoice
 import Fruit
 import Keys
 import Text
+import Time
 
 ###---------- SETUP ----------###
 
@@ -18,27 +19,35 @@ Window.bgpic(BackgroundImage)
 
 for Image in Fruit.FruitImages.values(): Window.addshape(Image)
 
-FruitObjects = []
 FruitNum = 5
+FruitObjects = [None]*FruitNum
 
 ###---------- FUNCTIONS ----------###
 
 # Create an Fruit object from the FruitTurtle class
-def NewFruit(i:int=0):
+def NewFruit(i:int=0, write=False):
   global FruitObjects
 
   # Randomly choose between Apple and Pear
-  fruitType = RChoice(["Apple", "Pear"])
+  fruitType = RChoice(["Apple"])
   match (fruitType):
     case "Apple":
-      FruitObjects[i] = Fruit.AppleTurtle( x=Random(-150,150), y=Random(-40,120), i=i)
+      FruitObjects[i] = Fruit.AppleTurtle( x=Random(-150,150), y=Random(-40,120), i=i, write=write )
     case "Pear":
-      FruitObjects[i] = Fruit.PearTurtle( x=Random(-150,150), y=Random(-40,120), i=i)
-
+      FruitObjects[i] = Fruit.PearTurtle( x=Random(-150,150), y=Random(-40,120), i=i, write=write )
   Window.update()
+
+# Label all Fruits with their letters
+def RetextFruits():
+  for i, FruitObject in enumerate(FruitObjects):
+    x = FruitObject.xcor()
+    y = FruitObject.ycor()
+    FruitObject.moveText(x, y, i)
+    Text.write(FruitObject.letter, i)
 
 # When Letter Key Pressed
 def KeyPress(letter:str):
+  global FruitObjects
 
   # If Correct Letter
   if letter in Keys.clickable:
@@ -50,39 +59,28 @@ def KeyPress(letter:str):
 
         # Move the Fruit to floor and clear its letter
         FruitObject.speed(5)
-        FruitObject.move(FruitObject.xcor,-160)
+        FruitObject.move(FruitObject.xcor(),-160)
         Text.clear(i)
 
         # Create a New Fruit
         NewFruit(i)
     
     # Respawn letters of remaining Fruits
-    for i, FruitObject in enumerate(FruitObjects):
-      x = FruitObject.xcor
-      y = FruitObject.ycor
-      FruitObject.moveText(x, y, i)
-      Text.write(FruitObject.letter, i)
+    RetextFruits()
 
   # Else Incorrect
   else:
     print(f"Try Again! ({letter})")
+  
+  #Time.Delay()
 
 
 ###---------- PROGRAM BODY ----------###
 
 # Create Initial Starting Fruit and Text
+Text.TextTurtles = [TurtleModule.Turtle()]*FruitNum
 for i in range(FruitNum):
-  Placeholder1 = TurtleModule.Turtle()
-  Placeholder2 = TurtleModule.Turtle()
-  Placeholder1.penup()
-  Placeholder1.hideturtle()
-  Placeholder2.penup()
-  Placeholder2.hideturtle()
-  FruitObjects.append(Placeholder1)
-  Text.TextTurtles.append(Placeholder2)
-  NewFruit(i)
-  Text.Setup(i)
-  del Placeholder1, Placeholder2
+  NewFruit(i, write=True)
 
 # Callback Functions for Key Presses
 for letter in Keys.available:
